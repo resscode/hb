@@ -7,7 +7,10 @@ class Hb extends CI_Controller {
 
     private $errorMessage;
     private $menu;
-
+    private static $listsActions = array(
+        'list',
+        'ajax_list'
+    );
     public function __construct() {
         parent::__construct();
 
@@ -16,12 +19,6 @@ class Hb extends CI_Controller {
         $this->load->library('grocery_CRUD');
         $this->load->library('Layout');
         $this->ci_authentication->restrict_access();
-        //TODO finish with realizatin auth part
-//$autoload['libraries'] = array('ci_authentication');
-//$autoload['model'] = array('ci_authentication_model');
-//$autoload['helper'] = array('ci_authentication_helper');
-//$autoload['config'] = array('ci_authentication');
-        // If Not login, redirect to login page.
     }
 
     public function pockets() {
@@ -29,6 +26,7 @@ class Hb extends CI_Controller {
             $crud          = new grocery_CRUD();
             $crud->set_theme('twitter-bootstrap');
             $crud->set_table('pockets');
+            $crud->columns('name', 'count', 'description', 'updated');
 //            $crud->fields('name', 'description', 'count', 'count_limit', 'created');
             $output        = $crud->render();
             $output->title = 'Pockets';
@@ -54,6 +52,12 @@ class Hb extends CI_Controller {
         } else {
             $result = 0;
         }
+        // Add login user id
+        $post['user_id'] = auth_id();
+        // Add currend date time if was not selected
+        if (empty($post['created'])){
+            $post['created'] = date('d-m-Y h:i:s');
+        }
         $post['result'] = $result;
         return $post;
     }
@@ -63,12 +67,17 @@ class Hb extends CI_Controller {
             $crud          = new grocery_CRUD();
             $crud->set_theme('twitter-bootstrap');
             $crud->set_table('in_transactions');
+            $crud->order_by('created', 'desc');
+            $crud->columns('created','name', 'count', 'pocket_id', 'user_id', 'category_id');
             $crud->set_primary_key('id', 'in_categories');
-            $crud->set_relation('category_id', 'in_categories', 'name');
+            $crud->set_relation('category_id', 'in_categories', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'pockets');
-            $crud->set_relation('pocket_id', 'pockets', 'name');
+            $crud->set_relation('pocket_id', 'pockets', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'users');
-            $crud->set_relation('user_id', 'users', 'name');
+            if( in_array($crud->getState(), self::$listsActions)) { 
+                $crud->set_relation('user_id', 'users', 'name');
+            }
+            $crud->field_type('user_id', 'invisible');
             $crud->callback_before_insert(array($this, 'migratetransactionsInCounts'));
             $output        = $crud->render();
             $output->title = 'In transactions';
@@ -83,9 +92,12 @@ class Hb extends CI_Controller {
             $crud          = new grocery_CRUD();
             $crud->set_theme('twitter-bootstrap');
             $crud->set_table('migrate_transactions');
+            $crud->order_by('created', 'desc');
             $crud->set_primary_key('id', 'pockets');
-            $crud->set_relation('pocket_id_from', 'pockets', 'name');
-            $crud->set_relation('pocket_id_to', 'pockets', 'name');
+            $crud->set_relation('pocket_id_from', 'pockets', 'name', null, 'priority desc');
+            $crud->set_relation('pocket_id_to', 'pockets', 'name', null, 'priority desc');
+            $crud->columns('pocket_id_from', 'pocket_id_to', 'count', 'created');
+            $crud->field_type('user_id', 'invisible');
             $crud->callback_before_insert(array($this, 'migratetransactionsCounts'));
             $output        = $crud->render();
             $output->title = 'Migrate transactions';
@@ -120,6 +132,8 @@ class Hb extends CI_Controller {
         } else {
             $result = 0;
         }
+        // Add login user id
+        $post['user_id'] = auth_id();
         $post['result'] = $result;
         return $post;
     }
@@ -140,6 +154,12 @@ class Hb extends CI_Controller {
         } else {
             $result = 0;
         }
+        // Add login user id
+        $post['user_id'] = auth_id();
+        // Add currend date time if was not selected
+        if (empty($post['created'])){
+            $post['created'] = date('d-m-Y h:i:s');
+        }
         $post['result'] = $result;
         return $post;
     }
@@ -151,11 +171,17 @@ class Hb extends CI_Controller {
             $crud->set_theme('twitter-bootstrap');
             $crud->set_table('out_transactions');
             $crud->set_primary_key('id', 'out_categories');
-            $crud->set_relation('category_id', 'out_categories', 'name');
+            $crud->order_by('created','desc');
+            $crud->columns('created','name', 'count', 'pocket_id', 'user_id', 'category_id');
+            $crud->set_relation('category_id', 'out_categories', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'pockets');
-            $crud->set_relation('pocket_id', 'pockets', 'name');
+            $crud->set_relation('pocket_id', 'pockets', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'users');
-            $crud->set_relation('user_id', 'users', 'name');
+            if( in_array($crud->getState(), self::$listsActions)) { 
+                $crud->set_relation('user_id', 'users', 'name');
+            }
+            $crud->add_fields('name','category_id','pocket_id','count', 'created', 'description', 'user_id');
+            $crud->field_type('user_id', 'invisible');
             $crud->callback_before_insert(array($this, 'migratetransactionsOutCounts'));
             $output        = $crud->render();
             $output->title = 'Out transactions';
@@ -164,7 +190,7 @@ class Hb extends CI_Controller {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
     }
-
+    
     public function incategories() {
         try {
 

@@ -34,7 +34,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="brand" href="/hb/">HB</a>
+                    <a class="brand" href="/hb/outtransactions/add">HB</a>
                     <div class="nav-collapse collapse">
                         <ul class="nav">
                             <?php if(!empty($auth)){ ?>
