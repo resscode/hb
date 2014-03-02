@@ -48,6 +48,11 @@ class auth extends CI_Controller {
      * @return void
      */
     public function login() {
+        // IF login redirect to pockets
+        if (is_logged_in()){
+            $this->load->helper('url');
+            redirect('/hb/outtransactions', 'refresh');
+        }
         // load resources
         $this->load->helper(array('cookie', 'url'));
         $this->load->library('form_validation');

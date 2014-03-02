@@ -87,7 +87,7 @@ $config['login_with_encryption_key'] = TRUE;
  * If you don't have a login_success field in the db, use this to redirect
  * successful logins to this page.
  */
-$config['login_success_url'] = 'hb';
+$config['login_success_url'] = 'hb/outtransactions/add';
 
 // --------------------------------------------------------------------------
 /**
@@ -288,7 +288,7 @@ $config['confirm_reset_url'] = 'auth/confirm_reset_password';
  *
  * Where to redirect on request reset password.
  */
-$config['request_reset_success_url'] = 'alert';
+$config['request_reset_success_url'] = 'auth/alert';
 
 // --------------------------------------------------------------------------
 /**
