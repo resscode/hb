@@ -36,14 +36,27 @@
                     </button>
                     <a class="brand" href="/hb/">HB</a>
                     <div class="nav-collapse collapse">
-                        <ul class="nav">                          
-                            <li><a href="/hb/pockets">Pockets</a></li>
-                            <li><a href="/hb/intransactions">In Transactions</a></li>
-                            <li><a href="/hb/outtransactions">Out transactions</a></li>
-                            <li><a href="/hb/migratetransactions">Migrate transactions</a></li>
-                            <li><a href="/hb/incategories">In Categories</a></li>
-                            <li><a href="/hb/outcategories">Out Categories</a></li>
-                            <li><a href="/hb/users">Users</a></li> 
+                        <ul class="nav">
+                            <?php if(!empty($auth)){ ?>
+                                <li><a href="/hb/pockets">Pockets</a></li>
+                                <li><a href="/hb/intransactions">In Transactions</a></li>
+                                <li><a href="/hb/outtransactions">Out transactions</a></li>
+                                <li><a href="/hb/migratetransactions">Migrate transactions</a></li>
+                                <li><a href="/hb/incategories">In Categories</a></li>
+                                <li><a href="/hb/outcategories">Out Categories</a></li>
+                                <li class="dropdown">
+                                    <a href="/auth/my_profile" class="dropdown-toggle" data-toggle="dropdown">User <b class="caret"></b></a>
+                                    <ul class="dropdown-menu">
+                                      <li><a href="/auth/my_profile">Profile</a></li>
+                                      <li class="divider"></li>
+                                      <li class="nav-header">Don't touch</li>
+                                      <li><a href="/auth/logout">Logout</a></li>
+                                    </ul>
+                                </li>
+                            <?php }else{ ?>
+                                <li><a href="/auth/login">Login</a></li> 
+                            <?php }?>
+                            
                         </ul>
                     </div><!--/.nav-collapse -->
                 </div>

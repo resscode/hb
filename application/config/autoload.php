@@ -111,6 +111,16 @@ $autoload['language'] = array();
 
 $autoload['model'] = array();
 
+/*
+| -------------------------------------------------------------------
+|  Auto-load Sparks
+| -------------------------------------------------------------------
+| Prototype:
+|
+|	$autoload['sparks'] = array('example-spark/1.0.0');
+|
+*/
+$autoload['sparks'] = array('ci_alerts/1.1.7', 'ci_authentication/1.3.4');
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

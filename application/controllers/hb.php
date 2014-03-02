@@ -15,6 +15,7 @@ class Hb extends CI_Controller {
         $this->load->helper('url');
         $this->load->library('grocery_CRUD');
         $this->load->library('Layout');
+        $this->ci_authentication->restrict_access();
         //TODO finish with realizatin auth part
 //$autoload['libraries'] = array('ci_authentication');
 //$autoload['model'] = array('ci_authentication_model');
@@ -31,7 +32,7 @@ class Hb extends CI_Controller {
 //            $crud->fields('name', 'description', 'count', 'count_limit', 'created');
             $output        = $crud->render();
             $output->title = 'Pockets';
-            $this->_example_output($output);
+            $this->_bootstrap_output($output);
         } catch (Exception $e) {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
@@ -71,7 +72,7 @@ class Hb extends CI_Controller {
             $crud->callback_before_insert(array($this, 'migratetransactionsInCounts'));
             $output        = $crud->render();
             $output->title = 'In transactions';
-            $this->_example_output($output);
+            $this->_bootstrap_output($output);
         } catch (Exception $e) {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
@@ -88,7 +89,7 @@ class Hb extends CI_Controller {
             $crud->callback_before_insert(array($this, 'migratetransactionsCounts'));
             $output        = $crud->render();
             $output->title = 'Migrate transactions';
-            $this->_example_output($output);
+            $this->_bootstrap_output($output);
         } catch (Exception $e) {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
@@ -158,7 +159,7 @@ class Hb extends CI_Controller {
             $crud->callback_before_insert(array($this, 'migratetransactionsOutCounts'));
             $output        = $crud->render();
             $output->title = 'Out transactions';
-            $this->_example_output($output);
+            $this->_bootstrap_output($output);
         } catch (Exception $e) {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
@@ -172,7 +173,7 @@ class Hb extends CI_Controller {
             $crud->set_table('in_categories');
             $output        = $crud->render();
             $output->title = 'In categories';
-            $this->_example_output($output);
+            $this->_bootstrap_output($output);
         } catch (Exception $e) {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
@@ -186,7 +187,7 @@ class Hb extends CI_Controller {
             $crud->set_table('out_categories');
             $output        = $crud->render();
             $output->title = 'Out categories';
-            $this->_example_output($output);
+            $this->_bootstrap_output($output);
         } catch (Exception $e) {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
@@ -211,13 +212,14 @@ class Hb extends CI_Controller {
             $crud->callback_before_insert(array($this, 'prepareUserCreate'));
             $output        = $crud->render();
             $output->title = 'Users';
-            $this->_example_output($output);
+            $this->_bootstrap_output($output);
         } catch (Exception $e) {
             show_error($e->getMessage() . ' --- ' . $e->getTraceAsString());
         }
     }
 
-    public function _example_output($output = null) {
+    public function _bootstrap_output($output = null) {
+        $output->auth = true; 
         $this->load->view('hb.php', $output);
     }
 

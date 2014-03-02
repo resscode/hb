@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://hb.resscode.org.ua';
+$config['base_url']	= 'http://hb.test';
 
 /*
 |--------------------------------------------------------------------------
@@ -226,7 +226,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = '';
+$config['encryption_key'] = 'AAAAB3NzaC1yc2EAAAABJQAAAQEAkwmPSfizDU45aiXpq7dtAZ0';
 
 /*
 |--------------------------------------------------------------------------

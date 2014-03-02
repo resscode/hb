@@ -48,9 +48,9 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = 'resscode.mysql.ukraine.com.ua';
-$db['default']['username'] = 'resscode_hb';
-$db['default']['password'] = '545kaz87';
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
 $db['default']['database'] = 'resscode_hb';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
