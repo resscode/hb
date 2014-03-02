@@ -42,7 +42,7 @@ if (validation_errors() != ''):
 if (set_value('email_address') != '') {$value = set_value('email_address');}
 else {$value = '';}
 ?>
-              <?=form_input(array('name' => 'email', 'id' => 'email_field', 'class' => 'span3', 'value' => $value))?>
+              <?=form_input(array('name' => 'email_address', 'id' => 'email_address_field', 'class' => 'span3', 'value' => $value))?>
               <?=form_error('email_address')?>
             </div><!--controls-->
           </div><!--control-group-->
