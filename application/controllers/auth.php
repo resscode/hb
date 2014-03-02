@@ -119,7 +119,7 @@ class auth extends CI_Controller {
      */
     public function _email_address_check($email_address) {
         if (!$this->ci_authentication_model->username_check($email_address)) {
-            $this->form_validation->set_message('_email_address_check', 'Email address not found. <a href="' . base_url() . 'home/register">Want to Register?</a>');
+            $this->form_validation->set_message('_email_address_check', 'Email address not found. <a href="' . base_url() . 'auth/register">Want to Register?</a>');
             return false;
         } else {
             // if there's a confirm string, fail
@@ -127,7 +127,7 @@ class auth extends CI_Controller {
             $r = $q->row();
             // if (!$this->ci_authentication_model->confirm_string_check($email_address))
             if ($r->confirm_string != '') {
-                $this->form_validation->set_message('_email_address_check', 'Please click the registration link sent to your email. <a href="' . base_url() . 'home/resend_register_email/' . $r->confirm_string . '">Or resend it</a>.');
+                $this->form_validation->set_message('_email_address_check', 'Please click the registration link sent to your email. <a href="' . base_url() . 'auth/resend_register_email/' . $r->confirm_string . '">Or resend it</a>.');
                 return false;
             } else {
                 return true;
