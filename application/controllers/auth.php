@@ -236,7 +236,7 @@ class auth extends CI_Controller {
             // set userdata, alert, redirect
             $this->session->set_userdata($post);
             $this->ci_alerts->set('success', 'Profile updated.');
-            redirect('my_profile');
+            redirect('auth/my_profile');
         }
         if (!empty($out)){
             $output['auth'] = true;
@@ -330,11 +330,11 @@ class auth extends CI_Controller {
      * @return void
      */
     public function alert() {
-        // load resources
-        $this->load->helper('url');
-
         // load content and view
-        $data['content'] = $this->load->view('alert_view', $data);
+        $this->load->helper('url');
+        $data = array();
+        $output['output'] = $this->load->view('alert_view', $data, true);
+        $this->_bootstrap_output($output);
     }
 
     public function _bootstrap_output($outputData = null) {
