@@ -72,7 +72,11 @@ class Hb extends CI_Controller {
             $crud->set_primary_key('id', 'in_categories');
             $crud->set_relation('category_id', 'in_categories', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'pockets');
-            $crud->set_relation('pocket_id', 'pockets', '{name} | {count}', null, 'priority desc');
+            if( !in_array($crud->getState(), self::$listsActions)) { 
+                $crud->set_relation('pocket_id', 'pockets', '{name} | {count}', null, 'priority desc');
+            }else{
+                $crud->set_relation('pocket_id', 'pockets', 'name', null, 'priority desc');
+            }
             $crud->set_primary_key('id', 'users');
             if( in_array($crud->getState(), self::$listsActions)) { 
                 $crud->set_relation('user_id', 'users', 'name');
@@ -175,7 +179,11 @@ class Hb extends CI_Controller {
             $crud->columns('created','name', 'count', 'pocket_id', 'user_id', 'category_id');
             $crud->set_relation('category_id', 'out_categories', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'pockets');
-            $crud->set_relation('pocket_id', 'pockets', '{name} | {count}', null, 'priority desc');
+            if( !in_array($crud->getState(), self::$listsActions)) { 
+                $crud->set_relation('pocket_id', 'pockets', '{name} | {count}', null, 'priority desc');
+            }else{
+                $crud->set_relation('pocket_id', 'pockets', 'name', null, 'priority desc');
+            }
             $crud->set_primary_key('id', 'users');
             if( in_array($crud->getState(), self::$listsActions)) { 
                 $crud->set_relation('user_id', 'users', 'name');

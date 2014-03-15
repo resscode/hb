@@ -205,6 +205,7 @@ class auth extends CI_Controller {
         $this->load->library(array('form_validation'));
         $out = '';
         // form validation
+        $this->form_validation->set_rules('name', 'User Name', 'trim|required');
         $this->form_validation->set_rules('first_name', 'First Name', 'trim|required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
         $this->form_validation->set_rules('email_address', 'Email Address', 'trim|required|valid_email|callback__new_unique_email_check');

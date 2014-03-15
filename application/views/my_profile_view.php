@@ -41,6 +41,19 @@ $hidden = array('id' => $item->id);
 ?>
 <?=form_open('', array('class' => 'form-horizontal'), $hidden)?>
 
+<div class="control-group form_item <?=(form_error('name') != '' ? 'error' : '')?>">
+            <?=form_label('User Name: *', 'name_field', array('class' => 'control-label'))?>
+            <div class="controls">
+<?php
+// form value
+if (set_value('name') != '') {$value = set_value('name');}
+else {$value = (isset($item) ? $item->name : '');}
+?>
+              <?=form_input(array('name' => 'name', 'id' => 'name_field', 'class' => 'span3', 'value' => $value))?>
+              <?=form_error('name')?>
+            </div><!--controls-->
+          </div><!--control-group-->
+
 <div class="control-group form_item <?=(form_error('first_name') != '' ? 'error' : '')?>">
             <?=form_label('First Name: *', 'first_name_field', array('class' => 'control-label'))?>
             <div class="controls">
@@ -54,7 +67,6 @@ else {$value = (isset($item) ? $item->first_name : '');}
             </div><!--controls-->
           </div><!--control-group-->
           
-
 
 <div class="control-group form_item <?=(form_error('last_name') != '' ? 'error' : '')?>">
             <?=form_label('Last Name: *', 'last_name_field', array('class' => 'control-label'))?>
