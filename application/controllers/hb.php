@@ -69,6 +69,8 @@ class Hb extends CI_Controller {
             $crud->set_table('in_transactions');
             $crud->order_by('created', 'desc');
             $crud->columns('created','name', 'count', 'pocket_id', 'user_id', 'category_id');
+            $crud->required_fields('name','count','pocket_id','category_id');
+            $crud->set_rules('count','Count','numeric|required');
             $crud->set_primary_key('id', 'in_categories');
             $crud->set_relation('category_id', 'in_categories', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'pockets');
@@ -98,6 +100,8 @@ class Hb extends CI_Controller {
             $crud->set_table('migrate_transactions');
             $crud->order_by('created', 'desc');
             $crud->set_primary_key('id', 'pockets');
+            $crud->required_fields('count','pocket_id_from','pocket_id_to');
+            $crud->set_rules('count','Count','numeric|required');
             $crud->set_relation('pocket_id_from', 'pockets', '{name} | {count}', null, 'priority desc');
             $crud->set_relation('pocket_id_to', 'pockets', '{name} | {count}', null, 'priority desc');
             $crud->columns('pocket_id_from', 'pocket_id_to', 'count', 'created');
@@ -149,7 +153,7 @@ class Hb extends CI_Controller {
         $result = 1;
         if (is_object($query) && $query->num_rows() > 0) {
             $row = $query->row_array();
-            if ($row['count'] >= $post['count']) {
+            if ($row['count'] >= $post['count'] || $row['is_negative']) {
                 $this->db->where('id', $post['pocket_id']);
                 $this->db->update('pockets', array('count' => $row['count'] - $post['count']));
             } else {
@@ -177,6 +181,8 @@ class Hb extends CI_Controller {
             $crud->set_primary_key('id', 'out_categories');
             $crud->order_by('created','desc');
             $crud->columns('created','name', 'count', 'pocket_id', 'user_id', 'category_id');
+            $crud->required_fields('name','count','pocket_id','category_id');
+            $crud->set_rules('count','Count','numeric|required');
             $crud->set_relation('category_id', 'out_categories', 'name', null, 'priority desc');
             $crud->set_primary_key('id', 'pockets');
             if( !in_array($crud->getState(), self::$listsActions)) { 
