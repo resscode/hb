@@ -51,6 +51,7 @@ class Hb extends CI_Controller {
 //            }
         } else {
             $result = 0;
+            return false;
         }
         // Add login user id
         $post['user_id'] = auth_id();
@@ -158,9 +159,11 @@ class Hb extends CI_Controller {
                 $this->db->update('pockets', array('count' => $row['count'] - $post['count']));
             } else {
                 $result = 0;
+                return false;
             }
         } else {
             $result = 0;
+            return false;
         }
         // Add login user id
         $post['user_id'] = auth_id();
